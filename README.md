@@ -116,13 +116,77 @@ dependencies {
 常用的请求有get请求和post请求
 
 #### GET请求
+get请求只需要知道请求地址，包括参数在内
+```
+String url = "https://www.baidu.com";
+OkHttpClient okHttpClient = new OkHttpClient();
+Request request = new Request.Builder().url(url).build();
+try {
+    Response response = okHttpClient.newCall(request).execute();
+    if(response.isSuccessful()){
+        Log.i("dawn", "request get result : " + response.body().string());
+    }else{
+        Log.e("dawn", "response failure");
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+    Log.e("dawn", "response exception");
+}
+```
 
 #### POST请求
 post请求的参数可以是键值对形式提交，也可以是json形式提交。
 
 ##### json形式提交参数
+json格式的post请求需要请求地址，gson转换成的json字符串
+```
+String url = "http://fintstest.189cube.com/oauth2.0/authorize?response_type=esurfingpassword";
+MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+String bodyJsonStr = getBodyJsonStr();
+OkHttpClient okHttpClient = new OkHttpClient();
+RequestBody requestBody = RequestBody.create(mediaType, bodyJsonStr);
+Request request = new Request.Builder()
+        .url(url)
+        .post(requestBody)
+        .build();
+try {
+    Response response = okHttpClient.newCall(request).execute();
+    if(response.isSuccessful()){
+        Log.i("dawn", "request json post result : " + response.body().string());
+    }else{
+        Log.e("dawn", "response failure");
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+    Log.e("dawn", "response exception");
+}
+```
 
 ##### 键值对形式提交参数
+键值对格式的post请求，需要请求地址和每个参数，添加到FormBody中
+```
+String url = "https://routetest.189cube.com/syncJob/caroute/queryDeviceInfoList?";
+OkHttpClient okHttpClient = new OkHttpClient();
+FormBody formBody = new FormBody.Builder()
+        .add("token", "")
+        .add("userAcct", "")
+        .build();
+Request request = new Request.Builder()
+        .url(url)
+        .post(formBody)
+        .build();
+try {
+    Response response = okHttpClient.newCall(request).execute();
+    if(response.isSuccessful()){
+        Log.i("dawn", "request form post result : " + response.body().string());
+    }else{
+        Log.e("dawn", "response failure");
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+    Log.e("dawn", "response exception");
+}
+```
 
 ### OkHttp参考地址
 
