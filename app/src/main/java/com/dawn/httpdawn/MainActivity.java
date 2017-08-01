@@ -18,4 +18,7 @@ public class MainActivity extends AppCompatActivity {
     public void jumpOkHttp(View view){
         startActivity(new Intent(this, OkHttpActivity.class));
     }
+    public void jumpRetrofit(View view){
+        startActivity(new Intent(this, RetrofitActivity.class));
+    }
 }
