@@ -15,12 +15,12 @@
         * [键值对形式提交参数](#键值对形式提交参数)
 * [OkHttp参考地址](#okhttp参考地址)
 * [Retrofit引用](#retrofit引用)
-* [Retrofit使用](#Retrofit使用)
-    * [Retrofit创建](#Retrofit创建)
+* [Retrofit使用](#retrofit使用)
+    * [Retrofit创建](#retrofit创建)
     * [请求接口创建](#请求接口创建)
     * [回调函数](#回调函数)
     * [完整调用](#完整调用)
-* [Retrofit参考地址](#Retrofit参考地址)
+* [Retrofit参考地址](#retrofit参考地址)
 
 
 ### RxJava引用
