@@ -19,6 +19,7 @@
         <activity android:name=".RxJavaActivity"/>
         <activity android:name=".OkHttpActivity"/>
         <activity android:name=".RetrofitActivity"/>
+        <activity android:name=".RetrofitRxJavaActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

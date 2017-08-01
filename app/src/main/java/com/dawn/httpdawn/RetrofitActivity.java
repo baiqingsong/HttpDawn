@@ -55,6 +55,13 @@ public class RetrofitActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    public void jsonPost2(View view){
+        try{
+            requestJsonPost2();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     private void requestGet(){
         String url = "https://github.com/";
         Retrofit retrofit = new Retrofit.Builder()
@@ -147,6 +154,31 @@ public class RetrofitActivity extends AppCompatActivity {
         Call<ResponseBody> getData(@Body Login login);
     }
 
+    private void requestJsonPost2(){
+        String url = "http://fintstest.189cube.com/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .build();
+        Login login = new Login("password", "13911111111", "111111", "");
+        Call<LoginResult> responseBodyCall = retrofit.create(JsonPostServer2.class).getData(login);
+        responseBodyCall.enqueue(new Callback<LoginResult>() {
+            @Override
+            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+                Log.i("dawn", "request json post 2 result = " + response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<LoginResult> call, Throwable t) {
+                Log.e("dawn", "request json post 2 call failure");
+            }
+        });
+    }
+    private interface JsonPostServer2{
+        @POST("oauth2.0/authorize?response_type=esurfingpassword")
+        Call<LoginResult> getData(@Body Login login);
+    }
+
     private class Login{
         private String response_type;
         private String username;
@@ -158,6 +190,23 @@ public class RetrofitActivity extends AppCompatActivity {
             this.username = username;
             this.password = password;
             this.scope = scope;
+        }
+    }
+    private class LoginResult{
+        private String error;
+        private String error_description;
+
+        public String getError() {
+            return error;
+        }
+
+        public String getError_description() {
+            return error_description;
+        }
+
+        @Override
+        public String toString() {
+            return "error = " + error + " error_description = " + error_description;
         }
     }
 

@@ -21,4 +21,7 @@ public class MainActivity extends AppCompatActivity {
     public void jumpRetrofit(View view){
         startActivity(new Intent(this, RetrofitActivity.class));
     }
+    public void jumpRetrofitRxJava(View view){
+        startActivity(new Intent(this, RetrofitRxJavaActivity.class));
+    }
 }
