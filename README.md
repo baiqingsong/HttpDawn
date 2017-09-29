@@ -301,6 +301,16 @@ private interface GetServer{
     Call<ResponseBody> getData();
 }
 ```
+注：get请求如果地址需要动态补充，则
+```
+@GET("baiqingsong/HttpDawn/{page}")
+    Call<ResponseBody> getData(@Path("page") int page, @Path("count") int count);
+```
+如果需要添加参数则：
+```
+@GET("baiqingsong/HttpDawn")
+    Call<ResponseBody> getData(@Query("page") int page, @Query("count") int count);
+```
 键值对提交post请求，不需要线程调用
 ```
 private void requestFormPost(){
