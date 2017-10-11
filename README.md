@@ -462,6 +462,7 @@ private class LoginResult{
 Retrofit是网络请求
 RxJava是异步操作
 所以可以将两个框架结合到一起来使用
+其中post请求
 ```
 private void requestFormPost(){
     String url = "https://routetest.189cube.com/";
@@ -502,6 +503,95 @@ private class ResultModel{
     }
 }
 ```
+get请求
+```
+public class BaseRequest {
+    /**
+     * 获取Retrofit对象
+     * @return
+     */
+    public static Retrofit getRetrofit(){
+        return new Retrofit.Builder().baseUrl(Constant.baseUrl)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+    }
+
+}
+    public interface InterfaceBookList{
+        @GET(Constant.bookListUrl)
+        Observable<ResultModel> getData(@Query("page") int page, @Query("count") int count);
+    }
+    private void requestBookList(final int page, final int count){
+        Retrofit retrofit = BaseRequest.getRetrofit();
+        retrofit.create(InterfaceRequest.InterfaceBookList.class).getData(page, count)
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<ResultModel>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(final ResultModel resultModel) {
+                        
+                    }
+                });
+    }
+
+```
+图片上传，含有其他参数
+```
+public class BaseRequest {
+    /**
+     * 获取Retrofit对象
+     * @return
+     */
+    public static Retrofit getRetrofit(){
+        return new Retrofit.Builder().baseUrl(Constant.baseUrl)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+    }
+
+}
+    public interface InterfaceUploadPhoto{
+        @Multipart
+        @POST(Constant.uploadPhotoUrl)
+        Observable<ResultModel> getData(@Part MultipartBody.Part username, @Part MultipartBody.Part token, @Part("fileName") String description, @Part("file\"; filename=\"image.png\"") RequestBody imgs);
+    }
+        private void requestUploadPhoto(String username, String token, String filePath){
+            Retrofit retrofit = BaseRequest.getRetrofit();
+            File file = new File(filePath);
+            retrofit.create(InterfaceRequest.InterfaceUploadPhoto.class).getData(MultipartBody.Part.createFormData("username", username),
+                    MultipartBody.Part.createFormData("token", token),
+                    file.getName(), RequestBody.create(MediaType.parse("image/png"),file))
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Observer<ResultModel>() {
+                        @Override
+                        public void onCompleted() {
+                        }
+    
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                        }
+    
+                        @Override
+                        public void onNext(ResultModel resultModel) {
+                            
+                        }
+                    });
+        }
+
+```
+
+
 需要注意的是创建的接口中方法返回的是Observable类型，Retrofit创建时需要调用addConverterFactory和
 addCallAdapterFactory方法
 
