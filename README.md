@@ -461,7 +461,7 @@ private class LoginResult{
 ### Retrofit和RxJava结合
 Retrofit是网络请求
 RxJava是异步操作
-所以可以将两个框架结合到一起来使用
+所以可以将两个框架结合到一起来使用  
 其中post请求
 ```
 private void requestFormPost(){
